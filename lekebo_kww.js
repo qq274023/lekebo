@@ -14,8 +14,8 @@
 
 
 //===============脚本版本=================//
-let scriptVersion = "1.0.6";
-let update_data = "完成签到，浏览视频，二手市场，校园头条任务";
+let scriptVersion = "1.0.1";
+let update_data = "完成签到，果园任务，阅读等...";
 //=======================================//
 const $ = new Env('口味王');
 const notify = $.isNode() ? require('./sendNotify') : '';
