@@ -6,14 +6,14 @@
  * 项目变量：lekebo_bcw_Cookie
  * 项目定时：每天运行两次
  * cron: 0 0,7 * * *
- * github仓库：https://github.com/
+ * github仓库：https://github.com/qq274023/lekebo
  * 
  * 交流Q群：104062430 作者:乐客播 欢迎前来提交bug   邀请码:3636116408
  */
 
 
 //===============脚本版本=================//
-let scriptVersion = "1.0.1";
+let scriptVersion = "1.0.2";
 let update_data = "2023-05-13";
 //=======================================//
 const $ = new Env('百草味');
@@ -38,7 +38,7 @@ let hostname = 'https://' + host;
             return;
         } else {
             DoubleLog(`\n 交流Q群：104062430 作者:乐客播 欢迎前来提交bug`)
-            //await getVersion();
+            await getVersion();
             DoubleLog(`\n================ 共找到 ${UserCookieArr.length} 个账号 ================ \n 脚本执行✌北京时间(UTC+8)：${new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000).toLocaleString()} \n================ 版本对比检查更新 ================`);          
             if (scriptVersionLatest != scriptVersion) {
                 DoubleLog(`\n 当前版本：${scriptVersion}`)
@@ -79,8 +79,8 @@ async function start() {
     await $.wait(2000);
     await finishTask2(2 * 1000);
     await $.wait(2000);
-    //await goldsignin(2 * 1000);
-    //await $.wait(2000);
+    await goldsignin(2 * 1000);
+    await $.wait(2000);
     await goldInfo(2 * 1000);
     await $.wait(2000);
     return true;
@@ -305,6 +305,43 @@ function finishTask2(timeout = 2000) {
                     DoubleLog(`\n 三次游览: ✅ ，成功游览获得 2 积分`)
                 } else {
                     DoubleLog(`\n 三次游览: ❌ ，原因是：${result.msg}`)
+                }
+            } catch (e) {
+                DoubleLog(`\n 游览异常: ❌ ，${response}`)
+            } finally {
+                resolve();
+            }
+        }, timeout)
+    })
+}
+/**
+ * 活动签到
+ * @param timeout
+ * @returns {Promise<unknown>}
+ */
+function goldsignin(timeout = 2000) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `${hostname}/n6/marketNewPoint/browse?id=0&source=1`,
+            headers: {
+                Host: host,
+				'Content-Type': 'application/json',
+                'User-Agent': getUA(),
+                'business': 'bcwWeChat',
+                'userAgentCat': '6',
+                'Accept': '*/*',
+				'token': ck[0],
+                'sign': '789782a5f95551819ef6b3ac3be5fea4',
+                'Referer': 'https://servicewechat.com/wx9dddd0217ebb9d71/315/page-frame.html',
+            },
+        }
+        $.get(url, async (error, response, data) => {
+            try {
+                let result = JSON.parse(data);
+                if (result.code == 200) {
+                    DoubleLog(`\n 活动签到: ✅ ，获得 10 积分`)
+                } else {
+                    DoubleLog(`\n 活动签到: ❌ ，原因是：${result.msg}`)
                 }
             } catch (e) {
                 DoubleLog(`\n 游览异常: ❌ ，${response}`)
