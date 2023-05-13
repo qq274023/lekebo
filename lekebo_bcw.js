@@ -14,7 +14,7 @@
 
 //===============脚本版本=================//
 let scriptVersion = "1.0.2";
-let update_data = "2023-05-13";
+let update_data = "2023-05-13增加活动签到";
 //=======================================//
 const $ = new Env('百草味');
 const notify = $.isNode() ? require('./sendNotify') : '';
